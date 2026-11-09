@@ -123,33 +123,35 @@ export default function ArticleView({
         </div>
       </div>
 
-      {/* ── PREVIOUS / NEXT CHAPTER NAVIGATION ── */}
-      <div className="pt-6 border-t border-slate-200 grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+      {/* ── PREVIOUS / NEXT CHAPTER NAVIGATION (GANDENG DUA DI MOBILE, COMPACT TIDAK KEPANJANGAN DI DESKTOP) ── */}
+      <div className="pt-6 border-t border-slate-200 grid grid-cols-2 gap-2.5 sm:flex sm:items-center sm:justify-between sm:gap-4 text-xs">
         {prevItem ? (
           <button
             type="button"
             onClick={() => onNavigate(prevItem.id)}
-            className="flex items-center gap-2.5 px-3.5 py-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 active:bg-slate-100 text-slate-700 transition-colors text-left shadow-2xs w-full min-h-[48px]"
+            className="flex items-center gap-2 px-2.5 py-2 sm:px-4 sm:py-2.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 active:bg-slate-100 text-slate-700 transition-all text-left shadow-2xs sm:w-auto sm:min-w-[180px] sm:max-w-[270px] min-h-[44px]"
+            title={`Sebelumnya: ${prevItem.title}`}
           >
-            <ArrowLeft className="w-4 h-4 text-slate-400 shrink-0" />
+            <ArrowLeft className="w-3.5 h-3.5 text-slate-400 shrink-0" />
             <div className="min-w-0 flex-1">
-              <span className="text-[10px] text-slate-400 uppercase tracking-wider block font-semibold">Sebelumnya</span>
-              <span className="font-bold text-slate-900 truncate block text-xs">{prevItem.shortTitle || prevItem.title}</span>
+              <span className="text-[9.5px] sm:text-[10px] text-slate-400 uppercase tracking-wider block font-semibold leading-none">Sebelumnya</span>
+              <span className="font-bold text-slate-800 text-[11px] sm:text-xs truncate block mt-1">{prevItem.shortTitle || prevItem.title}</span>
             </div>
           </button>
-        ) : <div className="hidden sm:block" />}
+        ) : <div className="col-span-1 sm:hidden" />}
 
         {nextItem && (
           <button
             type="button"
             onClick={() => onNavigate(nextItem.id)}
-            className="flex items-center justify-between gap-2.5 px-3.5 py-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 active:bg-slate-100 text-slate-700 transition-colors text-right shadow-2xs w-full sm:col-start-2 min-h-[48px]"
+            className="flex items-center justify-between gap-2 px-2.5 py-2 sm:px-4 sm:py-2.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 active:bg-slate-100 text-slate-700 transition-all text-right shadow-2xs sm:w-auto sm:min-w-[180px] sm:max-w-[270px] sm:ml-auto col-start-2 min-h-[44px]"
+            title={`Selanjutnya: ${nextItem.title}`}
           >
             <div className="min-w-0 flex-1 text-right">
-              <span className="text-[10px] text-[#DA2F1F] uppercase tracking-wider block font-semibold">Selanjutnya</span>
-              <span className="font-bold text-slate-900 truncate block text-xs">{nextItem.shortTitle || nextItem.title}</span>
+              <span className="text-[9.5px] sm:text-[10px] text-[#DA2F1F] uppercase tracking-wider block font-semibold leading-none">Selanjutnya</span>
+              <span className="font-bold text-slate-800 text-[11px] sm:text-xs truncate block mt-1">{nextItem.shortTitle || nextItem.title}</span>
             </div>
-            <ArrowRight className="w-4 h-4 text-[#DA2F1F] shrink-0" />
+            <ArrowRight className="w-3.5 h-3.5 text-[#DA2F1F] shrink-0" />
           </button>
         )}
       </div>
