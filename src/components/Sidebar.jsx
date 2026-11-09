@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
   Search,
-  ExternalLink,
   Shield,
   LayoutDashboard,
   ShoppingCart,
@@ -225,20 +224,6 @@ export default function Sidebar({
             </button>
           </div>
         </nav>
-
-        {/* Compact Footer */}
-        <div className="p-2.5 border-t border-slate-200 bg-slate-50 flex items-center justify-between text-xs shrink-0">
-          <span className="font-mono text-[11px] text-slate-500">localhost:8000</span>
-          <a
-            href="http://localhost:8000"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-slate-900 hover:bg-slate-800 text-white font-medium text-xs transition-colors"
-          >
-            <span>Buka POS</span>
-            <ExternalLink className="w-3 h-3 text-slate-300" />
-          </a>
-        </div>
       </aside>
     </>
   );
