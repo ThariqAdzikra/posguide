@@ -1,97 +1,132 @@
-import React, { useState } from 'react';
-import Navbar from './components/Navbar';
-import HeroSection from './components/HeroSection';
-import RoleTabs from './components/RoleTabs';
+import React, { useState, useEffect } from 'react';
+import Sidebar from './components/Sidebar';
+import Header from './components/Header';
 import StepCard from './components/StepCard';
 import KeyboardShortcuts from './components/KeyboardShortcuts';
 import FaqSection from './components/FaqSection';
-import Footer from './components/Footer';
 import { guideRoles, faqList } from './data/guideContent';
-import { ExternalLink, ArrowRight } from 'lucide-react';
+import { ExternalLink, ArrowRight, ShieldCheck, Printer } from 'lucide-react';
 
 export default function App() {
   const [activeRole, setActiveRole] = useState('kasir');
+  const [activeSection, setActiveSection] = useState('kasir-katalog');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
   const currentRole = guideRoles.find((r) => r.id === activeRole) || guideRoles[0];
 
+  // Navigate to an ID
+  const handleNavigate = (sectionId) => {
+    setActiveSection(sectionId);
+
+    // If section belongs to another role, switch active role
+    for (const r of guideRoles) {
+      if (r.steps.some((s) => s.id === sectionId)) {
+        setActiveRole(r.id);
+        break;
+      }
+    }
+
+    setTimeout(() => {
+      const el = document.getElementById(sectionId);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 50);
+  };
+
   const handleSelectRole = (roleId) => {
     setActiveRole(roleId);
-    // Smooth scroll down to the role steps
-    const stepsElement = document.getElementById('role-steps-section');
-    if (stepsElement) {
-      stepsElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const targetRole = guideRoles.find((r) => r.id === roleId);
+    if (targetRole && targetRole.steps.length > 0) {
+      handleNavigate(targetRole.steps[0].id);
     }
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col text-slate-800">
-      {/* Top Notification Announcement Bar */}
-      <div className="bg-slate-900 text-slate-300 text-xs py-2 px-4 text-center border-b border-slate-800">
-        <span className="font-semibold text-rose-400">Pembaruan Sistem:</span> Dukungan penuh cetak struk thermal 58mm & 80mm via Web Bluetooth kini aktif.
-      </div>
+    <div className="min-h-screen bg-slate-50 text-slate-800 antialiased font-['Inter',sans-serif]">
+      {/* ── 1. PERSISTENT DOCUMENTATION SIDEBAR ── */}
+      <Sidebar
+        roles={guideRoles}
+        activeSection={activeSection}
+        onNavigate={handleNavigate}
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        isMobileOpen={mobileSidebarOpen}
+        onCloseMobile={() => setMobileSidebarOpen(false)}
+      />
 
-      {/* Navigation */}
-      <Navbar activeRole={activeRole} onSelectRole={handleSelectRole} />
-
-      {/* Main Content */}
-      <main className="flex-1">
-        {/* Hero Section */}
-        <HeroSection activeRole={activeRole} onSelectRole={handleSelectRole} />
-
-        {/* Role Tabs Switcher */}
-        <RoleTabs
-          roles={guideRoles}
+      {/* ── 2. MAIN DOCUMENTATION AREA (OFFSET BY SIDEBAR) ── */}
+      <div className="lg:pl-72 sm:lg:pl-80 flex flex-col min-h-screen">
+        {/* Sticky Header */}
+        <Header
+          onOpenMobile={() => setMobileSidebarOpen(true)}
           activeRole={activeRole}
+          roles={guideRoles}
           onSelectRole={handleSelectRole}
         />
 
-        {/* Steps Container */}
-        <section id="role-steps-section" className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 space-y-8">
-          {/* Section Header */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200">
-            <div>
-              <span className="text-xs font-bold text-[#DA2F1F] uppercase tracking-wider">
-                Alur Panduan • {currentRole.badge}
+        {/* Content Body */}
+        <main className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-8 py-8 space-y-8">
+          {/* Active Module Overview Banner */}
+          <div className="bg-white rounded-xl p-6 border border-slate-200/90 shadow-2xs space-y-2">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <span className="text-[11px] font-bold text-[#DA2F1F] uppercase tracking-wider bg-rose-50 border border-rose-200 px-2.5 py-0.5 rounded-full">
+                {currentRole.badge}
               </span>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">
-                {currentRole.label}
-              </h2>
-              <p className="text-xs sm:text-sm text-slate-600 mt-1 max-w-xl">
-                {currentRole.tagline}
-              </p>
+              <span className="text-xs text-slate-400 font-mono">
+                {currentRole.steps.length} Modul Terverifikasi
+              </span>
             </div>
-            <a
-              href="https://rahmanprintingpos.sobatweb.tech"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-900 text-white hover:bg-slate-800 text-xs font-semibold shadow-xs transition-all self-start sm:self-auto"
-            >
-              <span>Buka Demo POS</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </a>
+            <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
+              {currentRole.label}
+            </h1>
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              {currentRole.tagline}
+            </p>
           </div>
 
-          {/* Step Cards List */}
+          {/* Steps Articles */}
           <div className="space-y-6">
             {currentRole.steps.map((step, idx) => (
               <StepCard key={step.id} step={step} index={idx} />
             ))}
           </div>
 
-          {/* Cashier Shortcuts Component */}
+          {/* Keyboard Shortcuts Component */}
           {currentRole.shortcuts && currentRole.shortcuts.length > 0 && (
-            <div className="pt-4">
-              <KeyboardShortcuts shortcuts={currentRole.shortcuts} />
-            </div>
+            <KeyboardShortcuts shortcuts={currentRole.shortcuts} />
           )}
-        </section>
 
-        {/* FAQ Section */}
-        <FaqSection faqs={faqList} />
-      </main>
+          {/* Thermal Printer Troubleshooting & FAQ */}
+          <FaqSection faqs={faqList} />
 
-      {/* Footer */}
-      <Footer />
+          {/* Simple Documentation Footer */}
+          <footer className="pt-6 pb-12 border-t border-slate-200 text-xs text-slate-400 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div>
+              &copy; 2026 Rahman Printing POS — Dokumentasi Resmi Aplikasi
+            </div>
+            <div className="flex items-center gap-4">
+              <a
+                href="http://localhost:8000"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-slate-700 transition-colors inline-flex items-center gap-1"
+              >
+                <span>Buka Aplikasi</span>
+                <ExternalLink className="w-3 h-3" />
+              </a>
+              <a
+                href="#faq-troubleshooting"
+                onClick={() => handleNavigate('faq-troubleshooting')}
+                className="hover:text-slate-700 transition-colors"
+              >
+                Pusat Bantuan
+              </a>
+            </div>
+          </footer>
+        </main>
+      </div>
     </div>
   );
 }

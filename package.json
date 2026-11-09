@@ -22,6 +22,7 @@
     "autoprefixer": "^10.6.2",
     "oxlint": "^1.90.0",
     "postcss": "^8.5.32",
+    "puppeteer-core": "^24.43.1",
     "tailwindcss": "^4.3.5",
     "vite": "^8.3.6"
   }
