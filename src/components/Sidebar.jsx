@@ -72,16 +72,18 @@ export default function Sidebar({
 
       {/* Sidebar Root */}
       <aside
-        className={`fixed top-0 bottom-0 left-0 z-50 w-64 sm:w-72 bg-white border-r border-slate-200/90 flex flex-col transition-transform duration-200 ease-in-out lg:translate-x-0 ${
+        className={`fixed top-0 bottom-0 left-0 z-50 w-72 bg-white border-r border-slate-200 flex flex-col transition-transform duration-200 ease-in-out lg:translate-x-0 ${
           isMobileOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full'
         }`}
       >
         {/* Brand Header */}
         <div className="h-14 px-4 border-b border-slate-200 flex items-center justify-between shrink-0 bg-white">
           <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-md bg-[#DA2F1F] flex items-center justify-center text-white font-black text-xs shadow-xs">
-              R
-            </div>
+            <img
+              src="/img/logoutama.png"
+              alt="Rahman Printing Logo"
+              className="w-8 h-8 object-contain shrink-0"
+            />
             <div>
               <div className="flex items-center gap-1.5">
                 <span className="font-bold text-slate-900 text-xs">Rahman Printing</span>

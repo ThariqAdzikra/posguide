@@ -52,7 +52,7 @@ export default function App() {
       />
 
       {/* ── 2. KONTEN DOKUMENTASI UTAMA ── */}
-      <div className="lg:pl-72 sm:lg:pl-80 flex flex-col min-h-screen">
+      <div className="lg:pl-72 flex flex-col min-h-screen">
         {/* Sticky Header */}
         <Header
           onOpenMobile={() => setMobileSidebarOpen(true)}
