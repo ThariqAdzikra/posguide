@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
-import StepCard from './components/StepCard';
+import ArticleView from './components/ArticleView';
 import KeyboardShortcuts from './components/KeyboardShortcuts';
 import FaqSection from './components/FaqSection';
 import { guideSections, guideShortcuts, guideFaqs } from './data/guideContent';
@@ -12,117 +12,92 @@ export default function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
-  // Find active group title
-  let activeGroupTitle = 'Panduan Fitur';
+  // Flatten all items to easily find active, prev, and next
+  const flatItems = [];
   for (const group of guideSections) {
-    if (group.items.some((item) => item.id === activeSection)) {
-      activeGroupTitle = group.groupTitle;
-      break;
+    for (const item of group.items) {
+      flatItems.push({ ...item, groupTitle: group.groupTitle });
     }
   }
 
-  const handleNavigate = (sectionId) => {
+  // Find currently active item
+  const activeItemIndex = flatItems.findIndex((it) => it.id === activeSection);
+  const activeItem = activeItemIndex !== -1 ? flatItems[activeItemIndex] : flatItems[0];
+  const prevItem = activeItemIndex > 0 ? flatItems[activeItemIndex - 1] : null;
+  const nextItem = activeItemIndex !== -1 && activeItemIndex < flatItems.length - 1 ? flatItems[activeItemIndex + 1] : null;
+
+  const activeGroupTitle = activeItem ? activeItem.groupTitle : 'Panduan Fitur';
+  const activeItemTitle = activeSection === 'keyboard-shortcuts'
+    ? 'Shortcut Keyboard Kasir'
+    : activeSection === 'faq-troubleshooting'
+    ? 'Troubleshooting Printer'
+    : activeItem?.title || 'Dokumentasi';
+
+  const handleSelectSection = (sectionId) => {
     setActiveSection(sectionId);
-    setTimeout(() => {
-      const el = document.getElementById(sectionId);
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    }, 40);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Filter items
-  const allGroups = guideSections.map((group) => {
-    const items = group.items.filter((item) =>
-      searchQuery
-        ? item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          item.summary.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          item.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          item.endpoint.toLowerCase().includes(searchQuery.toLowerCase())
-        : true
-    );
-    return { ...group, items };
-  }).filter((group) => group.items.length > 0);
-
   return (
-    <div className="min-h-screen bg-slate-100/70 text-slate-800 antialiased font-['Inter',sans-serif]">
+    <div className="min-h-screen bg-slate-50/70 text-slate-800 antialiased font-['Inter',sans-serif]">
       {/* ── 1. SIDEBAR NAVIGASI ── */}
       <Sidebar
         sections={guideSections}
         activeSection={activeSection}
-        onNavigate={handleNavigate}
+        onSelectSection={handleSelectSection}
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
         isMobileOpen={mobileSidebarOpen}
         onCloseMobile={() => setMobileSidebarOpen(false)}
       />
 
-      {/* ── 2. DOKUMENTASI UTAMA ── */}
-      <div className="lg:pl-64 sm:lg:pl-72 flex flex-col min-h-screen">
+      {/* ── 2. KONTEN DOKUMENTASI UTAMA ── */}
+      <div className="lg:pl-72 sm:lg:pl-80 flex flex-col min-h-screen">
+        {/* Sticky Header */}
         <Header
           onOpenMobile={() => setMobileSidebarOpen(true)}
           activeGroupTitle={activeGroupTitle}
+          activeItemTitle={activeItemTitle}
         />
 
-        <main className="flex-1 max-w-4xl w-full mx-auto px-3 sm:px-6 py-5 space-y-6">
-          {/* Compact Document Header */}
-          <div className="bg-white rounded-xs border border-slate-200 p-4 space-y-1">
-            <h1 className="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
-              Panduan Operasional Rahman Printing POS
-            </h1>
-            <p className="text-xs text-slate-600 leading-relaxed">
-              Panduan lengkap alur kerja sistem: Login, Kasir POS, Spanduk meteran, SPK produksi, Stok bahan, CRM pelanggan, Laporan omzet, serta pengaturan toko.
-            </p>
-          </div>
+        {/* Main Content Area (Fills Width Responsively) */}
+        <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-8 py-6">
+          {activeSection === 'keyboard-shortcuts' ? (
+            <KeyboardShortcuts shortcuts={guideShortcuts} />
+          ) : activeSection === 'faq-troubleshooting' ? (
+            <FaqSection faqs={guideFaqs} />
+          ) : activeItem ? (
+            <ArticleView
+              item={activeItem}
+              groupTitle={activeGroupTitle}
+              prevItem={prevItem}
+              nextItem={nextItem}
+              onNavigate={handleSelectSection}
+            />
+          ) : null}
 
-          {/* Grouped Feature Sections */}
-          {allGroups.map((group) => (
-            <section key={group.groupId} className="space-y-3">
-              <div className="pb-1 border-b border-slate-200 flex items-center justify-between">
-                <h2 className="text-xs font-bold uppercase tracking-wider text-slate-600">
-                  {group.groupTitle}
-                </h2>
-                <span className="text-[11px] font-mono text-slate-400">
-                  {group.items.length} Modul
-                </span>
-              </div>
-
-              <div className="space-y-3.5">
-                {group.items.map((item) => (
-                  <StepCard key={item.id} item={item} />
-                ))}
-              </div>
-            </section>
-          ))}
-
-          {/* Shortcut Keyboard Kasir */}
-          <KeyboardShortcuts shortcuts={guideShortcuts} />
-
-          {/* FAQ & Troubleshooting */}
-          <FaqSection faqs={guideFaqs} />
-
-          {/* Simple Compact Footer */}
-          <footer className="pt-4 pb-8 border-t border-slate-200 text-xs text-slate-400 flex flex-col sm:flex-row items-center justify-between gap-2">
+          {/* Simple Clean Footer */}
+          <footer className="mt-12 pt-6 pb-8 border-t border-slate-200 text-xs text-slate-400 flex flex-col sm:flex-row items-center justify-between gap-3">
             <div>
-              &copy; 2026 Rahman Printing POS — Dokumentasi Resmi
+              &copy; 2026 Rahman Printing POS — Dokumentasi Resmi Aplikasi
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-4">
               <a
                 href="http://localhost:8000"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-slate-800 transition-colors inline-flex items-center gap-1 font-medium"
               >
-                <span>Aplikasi POS</span>
+                <span>Buka Aplikasi Web</span>
                 <ExternalLink className="w-3 h-3" />
               </a>
-              <a
-                href="#faq-troubleshooting"
-                onClick={() => handleNavigate('faq-troubleshooting')}
-                className="hover:text-slate-800 transition-colors"
+              <button
+                type="button"
+                onClick={() => handleSelectSection('faq-troubleshooting')}
+                className="hover:text-slate-800 transition-colors cursor-pointer"
               >
-                Bantuan
-              </a>
+                Troubleshooting
+              </button>
             </div>
           </footer>
         </main>
