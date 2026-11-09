@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { HelpCircle, ChevronDown, Printer } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 
 export default function FaqSection({ faqs }) {
   const [openIndex, setOpenIndex] = useState(0);
@@ -11,20 +11,18 @@ export default function FaqSection({ faqs }) {
   return (
     <section
       id="faq-troubleshooting"
-      className="scroll-mt-24 bg-white rounded-xl border border-slate-200/90 p-5 sm:p-7 shadow-2xs space-y-5"
+      className="scroll-mt-20 bg-white rounded border border-slate-200 p-5 sm:p-7 space-y-4"
     >
-      <div className="flex items-center gap-3 pb-4 border-b border-slate-100">
-        <div className="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
-          <Printer className="w-4 h-4" />
-        </div>
+      <div className="pb-3 border-b border-slate-100 flex items-center justify-between">
         <div>
-          <h3 className="font-bold text-sm sm:text-base text-slate-900">
-            Troubleshooting Printer Thermal & FAQ Operasional
-          </h3>
-          <p className="text-xs text-slate-500">
-            Solusi kendala Bluetooth ESC/POS, format kertas 58mm/80mm, dan alur pelunasan DP.
+          <h2 className="text-lg font-bold text-slate-900">
+            Troubleshooting Printer & Pertanyaan Operasional (FAQ)
+          </h2>
+          <p className="text-xs text-slate-600">
+            Solusi kendala printer thermal Bluetooth ESC/POS, format kertas 58mm/80mm, dan pemulihan akun.
           </p>
         </div>
+        <span className="font-mono text-xs text-slate-400">Troubleshooting</span>
       </div>
 
       <div className="space-y-2">
@@ -33,7 +31,7 @@ export default function FaqSection({ faqs }) {
           return (
             <div
               key={idx}
-              className="rounded-lg border border-slate-200/80 bg-slate-50/50 overflow-hidden transition-colors"
+              className="rounded border border-slate-200 bg-slate-50/60 overflow-hidden"
             >
               <button
                 type="button"
@@ -45,12 +43,12 @@ export default function FaqSection({ faqs }) {
                 </span>
                 <ChevronDown
                   className={`w-4 h-4 text-slate-400 shrink-0 transition-transform duration-200 ${
-                    isOpen ? 'rotate-180 text-[#DA2F1F]' : ''
+                    isOpen ? 'rotate-180 text-slate-800' : ''
                   }`}
                 />
               </button>
               {isOpen && (
-                <div className="px-4 pb-4 pt-1 text-xs text-slate-600 leading-relaxed border-t border-slate-200/60 bg-white">
+                <div className="px-4 pb-4 pt-1 text-xs text-slate-700 leading-relaxed border-t border-slate-200 bg-white">
                   {faq.a}
                 </div>
               )}
