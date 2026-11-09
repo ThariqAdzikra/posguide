@@ -78,33 +78,13 @@ export default function ArticleView({
           </div>
         </div>
 
-        {/* ── RIGHT COLUMN: SCREENSHOT MOCKUP WINDOW (7 Cols) ── */}
+        {/* ── RIGHT COLUMN: CLEAN SCREENSHOT PREVIEW (7 Cols) ── */}
         <div className="lg:col-span-7 lg:sticky lg:top-20">
-          <div className="rounded-lg border border-slate-300 bg-slate-900 shadow-sm overflow-hidden">
-            {/* Window Topbar */}
-            <div className="flex items-center justify-between px-3.5 py-2 bg-slate-800 border-b border-slate-700 text-slate-400 text-xs">
-              <div className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-rose-500/80 inline-block" />
-                <span className="w-2.5 h-2.5 rounded-full bg-amber-500/80 inline-block" />
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80 inline-block" />
-              </div>
-              <span className="font-mono text-[11px] text-slate-300 truncate max-w-[280px]">
-                http://localhost:8000{item.endpoint}
-              </span>
-              <button
-                type="button"
-                onClick={() => setLightboxOpen(true)}
-                className="flex items-center gap-1 text-[11px] text-slate-300 hover:text-white bg-slate-700 hover:bg-slate-600 px-2 py-0.5 rounded cursor-pointer transition-colors"
-              >
-                <ZoomIn className="w-3 h-3" />
-                <span>Perbesar</span>
-              </button>
-            </div>
-
+          <div className="rounded-lg border border-slate-200 bg-white shadow-xs overflow-hidden relative group">
             {/* Clickable Image Preview */}
             <div
               onClick={() => setLightboxOpen(true)}
-              className="cursor-zoom-in bg-slate-950 relative group"
+              className="cursor-zoom-in relative bg-slate-50 flex items-center justify-center"
             >
               <img
                 src={item.image}
@@ -112,17 +92,21 @@ export default function ArticleView({
                 className="w-full h-auto object-cover max-h-[560px]"
                 loading="eager"
               />
-              <div className="absolute inset-0 bg-slate-950/0 group-hover:bg-slate-950/20 transition-colors flex items-center justify-center">
-                <span className="opacity-0 group-hover:opacity-100 transition-opacity bg-slate-900/90 text-white text-xs px-3 py-1.5 rounded shadow-lg backdrop-blur-xs flex items-center gap-1.5">
-                  <ZoomIn className="w-3.5 h-3.5" />
-                  Klik untuk melihat resolusi penuh
-                </span>
-              </div>
+
+              {/* Clean Subtle Zoom Badge in Top Right Corner */}
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setLightboxOpen(true);
+                }}
+                className="absolute top-3 right-3 bg-white/95 hover:bg-white text-slate-700 hover:text-slate-900 text-xs font-medium px-2.5 py-1.5 rounded-md shadow-xs border border-slate-200/90 flex items-center gap-1.5 transition-all opacity-90 group-hover:opacity-100"
+              >
+                <ZoomIn className="w-3.5 h-3.5 text-slate-500" />
+                <span>Perbesar</span>
+              </button>
             </div>
           </div>
-          <p className="mt-2 text-[11px] text-slate-400 text-right">
-            Tangkapan layar aktual aplikasi • Resolusi 2K HiDPI
-          </p>
         </div>
       </div>
 
@@ -137,7 +121,7 @@ export default function ArticleView({
             <ArrowLeft className="w-4 h-4 text-slate-400 shrink-0" />
             <div className="min-w-0">
               <span className="text-[10px] text-slate-400 uppercase tracking-wider block">Sebelumnya</span>
-              <span className="font-semibold truncate block">{prevItem.title}</span>
+              <span className="font-semibold truncate block">{prevItem.shortTitle || prevItem.title}</span>
             </div>
           </button>
         ) : <div />}
@@ -150,7 +134,7 @@ export default function ArticleView({
           >
             <div className="min-w-0">
               <span className="text-[10px] text-slate-400 uppercase tracking-wider block">Selanjutnya</span>
-              <span className="font-semibold truncate block">{nextItem.title}</span>
+              <span className="font-semibold truncate block">{nextItem.shortTitle || nextItem.title}</span>
             </div>
             <ArrowRight className="w-4 h-4 text-slate-400 shrink-0" />
           </button>
@@ -168,10 +152,7 @@ export default function ArticleView({
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between px-4 py-2.5 bg-slate-800 border-b border-slate-700 text-white shrink-0">
-              <div className="flex items-center gap-2">
-                <span className="font-mono text-xs text-rose-400 font-semibold">{item.endpoint}</span>
-                <span className="text-xs sm:text-sm font-semibold truncate">{item.title}</span>
-              </div>
+              <span className="text-xs sm:text-sm font-semibold truncate">{item.title}</span>
               <button
                 type="button"
                 onClick={() => setLightboxOpen(false)}
