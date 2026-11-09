@@ -65,14 +65,14 @@ export default function Sidebar({
       {/* Mobile Backdrop */}
       {isMobileOpen && (
         <div
-          className="fixed inset-0 z-40 bg-slate-900/50 backdrop-blur-xs lg:hidden"
+          className="fixed inset-0 z-40 bg-slate-900/60 backdrop-blur-xs transition-opacity lg:hidden"
           onClick={onCloseMobile}
         />
       )}
 
       {/* Sidebar Root */}
       <aside
-        className={`fixed top-0 bottom-0 left-0 z-50 w-72 bg-white border-r border-slate-200 flex flex-col transition-transform duration-200 ease-in-out lg:translate-x-0 ${
+        className={`fixed top-0 bottom-0 left-0 z-50 w-[84vw] sm:w-72 max-w-xs bg-white border-r border-slate-200 flex flex-col transition-transform duration-250 ease-out lg:translate-x-0 ${
           isMobileOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full'
         }`}
       >
@@ -97,9 +97,10 @@ export default function Sidebar({
           <button
             type="button"
             onClick={onCloseMobile}
-            className="p-1 rounded text-slate-400 hover:text-slate-600 hover:bg-slate-100 lg:hidden"
+            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 active:bg-slate-200 transition-colors lg:hidden"
+            aria-label="Tutup Menu"
           >
-            <X className="w-4 h-4" />
+            <X className="w-5 h-5" />
           </button>
         </div>
 
@@ -118,7 +119,8 @@ export default function Sidebar({
               <button
                 type="button"
                 onClick={() => onSearchChange('')}
-                className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-xs"
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-xs p-1"
+                aria-label="Hapus Pencarian"
               >
                 ✕
               </button>
@@ -148,7 +150,7 @@ export default function Sidebar({
                 <button
                   type="button"
                   onClick={() => toggleGroup(group.groupId)}
-                  className="w-full flex items-center justify-between px-2 py-1.5 rounded-md text-slate-500 hover:text-slate-900 hover:bg-slate-100/70 transition-colors font-medium text-xs text-left"
+                  className="w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100/70 active:bg-slate-200/60 transition-colors font-medium text-xs text-left min-h-[38px]"
                 >
                   <div className="flex items-center gap-2 truncate">
                     <Icon className="w-3.5 h-3.5 text-slate-400 shrink-0" />
@@ -165,7 +167,7 @@ export default function Sidebar({
 
                 {/* Sub-items (Only when group is open or when searching) */}
                 {isGroupOpen && (
-                  <div className="space-y-0.5 border-l border-slate-200 ml-3.5 pl-2 py-0.5">
+                  <div className="space-y-0.5 border-l border-slate-200 ml-4 pl-2 py-0.5">
                     {filteredItems.map((item) => {
                       const isActive = activeSection === item.id;
                       return (
@@ -176,7 +178,7 @@ export default function Sidebar({
                             onSelectSection(item.id);
                             onCloseMobile();
                           }}
-                          className={`w-full text-left px-2.5 py-1.5 rounded-md text-xs transition-colors flex items-center justify-between ${
+                          className={`w-full text-left px-2.5 py-2 rounded-md text-xs transition-colors flex items-center justify-between min-h-[34px] ${
                             isActive
                               ? 'bg-rose-50 text-[#DA2F1F] font-bold border-l-2 border-[#DA2F1F] -ml-[9px] pl-3'
                               : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/60 font-normal'
@@ -200,7 +202,7 @@ export default function Sidebar({
                 onSelectSection('keyboard-shortcuts');
                 onCloseMobile();
               }}
-              className={`w-full text-left px-2 py-1.5 rounded-md text-xs transition-colors flex items-center gap-2 ${
+              className={`w-full text-left px-2.5 py-2 rounded-lg text-xs transition-colors flex items-center gap-2 min-h-[38px] ${
                 activeSection === 'keyboard-shortcuts'
                   ? 'bg-rose-50 text-[#DA2F1F] font-bold border-l-2 border-[#DA2F1F] -ml-[9px] pl-3'
                   : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/60 font-normal'
@@ -215,7 +217,7 @@ export default function Sidebar({
                 onSelectSection('faq-troubleshooting');
                 onCloseMobile();
               }}
-              className={`w-full text-left px-2 py-1.5 rounded-md text-xs transition-colors flex items-center gap-2 ${
+              className={`w-full text-left px-2.5 py-2 rounded-lg text-xs transition-colors flex items-center gap-2 min-h-[38px] ${
                 activeSection === 'faq-troubleshooting'
                   ? 'bg-rose-50 text-[#DA2F1F] font-bold border-l-2 border-[#DA2F1F] -ml-[9px] pl-3'
                   : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/60 font-normal'

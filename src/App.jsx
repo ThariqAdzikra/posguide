@@ -5,7 +5,6 @@ import ArticleView from './components/ArticleView';
 import KeyboardShortcuts from './components/KeyboardShortcuts';
 import FaqSection from './components/FaqSection';
 import { guideSections, guideShortcuts, guideFaqs } from './data/guideContent';
-import { ExternalLink } from 'lucide-react';
 
 export default function App() {
   const [activeSection, setActiveSection] = useState('auth-login');
@@ -35,11 +34,12 @@ export default function App() {
 
   const handleSelectSection = (sectionId) => {
     setActiveSection(sectionId);
+    setMobileSidebarOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
-    <div className="min-h-screen bg-slate-50/70 text-slate-800 antialiased font-['Inter',sans-serif]">
+    <div className="min-h-screen bg-slate-50/70 text-slate-800 antialiased font-['Inter',sans-serif] overflow-x-hidden w-full">
       {/* ── 1. SIDEBAR NAVIGASI ── */}
       <Sidebar
         sections={guideSections}
@@ -52,7 +52,7 @@ export default function App() {
       />
 
       {/* ── 2. KONTEN DOKUMENTASI UTAMA ── */}
-      <div className="lg:pl-72 flex flex-col min-h-screen">
+      <div className="lg:pl-72 flex flex-col min-h-screen w-full">
         {/* Sticky Header */}
         <Header
           onOpenMobile={() => setMobileSidebarOpen(true)}
@@ -60,8 +60,8 @@ export default function App() {
           activeItemTitle={activeItemTitle}
         />
 
-        {/* Main Content Area (Fills Width Responsively) */}
-        <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-8 py-6">
+        {/* Main Content Area (Responsive width & padding) */}
+        <main className="flex-1 w-full max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 py-5 sm:py-6">
           {activeSection === 'keyboard-shortcuts' ? (
             <KeyboardShortcuts shortcuts={guideShortcuts} />
           ) : activeSection === 'faq-troubleshooting' ? (
@@ -77,8 +77,8 @@ export default function App() {
           ) : null}
 
           {/* Simple Clean Footer with Credits */}
-          <footer className="mt-12 pt-6 pb-8 border-t border-slate-200 text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-3">
-            <div className="flex items-center gap-1.5 text-slate-500">
+          <footer className="mt-10 sm:mt-12 pt-6 pb-8 border-t border-slate-200 text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+            <div className="flex items-center gap-1.5 text-slate-500 flex-wrap justify-center sm:justify-start">
               <span>&copy; 2026 Rahman Printing POS</span>
               <span className="text-slate-300">&middot;</span>
               <span className="font-semibold text-slate-700">Thariq Adzikra</span>
@@ -89,7 +89,7 @@ export default function App() {
                 href="https://github.com/ThariqAdzikra"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-slate-900 transition-colors flex items-center gap-1 group"
+                className="hover:text-slate-900 transition-colors flex items-center gap-1 group py-1"
                 title="GitHub: ThariqAdzikra"
               >
                 <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
@@ -102,7 +102,7 @@ export default function App() {
                 href="https://instagram.com/thrqdz_"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-pink-600 transition-colors flex items-center gap-1 group"
+                className="hover:text-pink-600 transition-colors flex items-center gap-1 group py-1"
                 title="Instagram: @thrqdz_"
               >
                 <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
@@ -113,7 +113,7 @@ export default function App() {
               <span className="text-slate-300">&middot;</span>
               <a
                 href="mailto:adzthariq@gmail.com"
-                className="hover:text-blue-600 transition-colors flex items-center gap-1 group"
+                className="hover:text-blue-600 transition-colors flex items-center gap-1 group py-1"
                 title="Email: adzthariq@gmail.com"
               >
                 <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
