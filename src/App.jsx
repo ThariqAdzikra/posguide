@@ -12,7 +12,7 @@ export default function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
-  // Find active group title for the header
+  // Find active group title
   let activeGroupTitle = 'Panduan Fitur';
   for (const group of guideSections) {
     if (group.items.some((item) => item.id === activeSection)) {
@@ -28,10 +28,10 @@ export default function App() {
       if (el) {
         el.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
-    }, 50);
+    }, 40);
   };
 
-  // Flatten all items for rendering or search
+  // Filter items
   const allGroups = guideSections.map((group) => {
     const items = group.items.filter((item) =>
       searchQuery
@@ -45,7 +45,7 @@ export default function App() {
   }).filter((group) => group.items.length > 0);
 
   return (
-    <div className="min-h-screen bg-slate-100/60 text-slate-800 antialiased font-['Inter',sans-serif]">
+    <div className="min-h-screen bg-slate-100/70 text-slate-800 antialiased font-['Inter',sans-serif]">
       {/* ── 1. SIDEBAR NAVIGASI ── */}
       <Sidebar
         sections={guideSections}
@@ -58,38 +58,36 @@ export default function App() {
       />
 
       {/* ── 2. DOKUMENTASI UTAMA ── */}
-      <div className="lg:pl-72 sm:lg:pl-80 flex flex-col min-h-screen">
-        {/* Header Bar */}
+      <div className="lg:pl-64 sm:lg:pl-72 flex flex-col min-h-screen">
         <Header
           onOpenMobile={() => setMobileSidebarOpen(true)}
           activeGroupTitle={activeGroupTitle}
         />
 
-        {/* Content Area */}
-        <main className="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-8 py-8 space-y-10">
-          {/* Main Title Banner (Simple Document Header) */}
-          <div className="bg-white rounded border border-slate-200 p-6 space-y-2">
-            <h1 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
-              Dokumentasi & Panduan Operasional Rahman Printing POS
+        <main className="flex-1 max-w-4xl w-full mx-auto px-3 sm:px-6 py-5 space-y-6">
+          {/* Compact Document Header */}
+          <div className="bg-white rounded-xs border border-slate-200 p-4 space-y-1">
+            <h1 className="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
+              Panduan Operasional Rahman Printing POS
             </h1>
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-              Panduan teknis dan alur operasional mencakup autentikasi akun, kasir kasir POS, kalkulasi spanduk meteran, surat perintah kerja (SPK), manajemen stok bahan, CRM pelanggan, pelunasan nota, hingga pengaturan toko.
+            <p className="text-xs text-slate-600 leading-relaxed">
+              Panduan lengkap alur kerja sistem: Login, Kasir POS, Spanduk meteran, SPK produksi, Stok bahan, CRM pelanggan, Laporan omzet, serta pengaturan toko.
             </p>
           </div>
 
           {/* Grouped Feature Sections */}
           {allGroups.map((group) => (
-            <section key={group.groupId} className="space-y-5">
-              <div className="pb-2 border-b border-slate-300 flex items-center justify-between">
-                <h2 className="text-sm font-bold uppercase tracking-wider text-slate-700">
+            <section key={group.groupId} className="space-y-3">
+              <div className="pb-1 border-b border-slate-200 flex items-center justify-between">
+                <h2 className="text-xs font-bold uppercase tracking-wider text-slate-600">
                   {group.groupTitle}
                 </h2>
-                <span className="text-xs font-mono text-slate-400">
+                <span className="text-[11px] font-mono text-slate-400">
                   {group.items.length} Modul
                 </span>
               </div>
 
-              <div className="space-y-6">
+              <div className="space-y-3.5">
                 {group.items.map((item) => (
                   <StepCard key={item.id} item={item} />
                 ))}
@@ -100,30 +98,30 @@ export default function App() {
           {/* Shortcut Keyboard Kasir */}
           <KeyboardShortcuts shortcuts={guideShortcuts} />
 
-          {/* FAQ & Troubleshooting Printer */}
+          {/* FAQ & Troubleshooting */}
           <FaqSection faqs={guideFaqs} />
 
-          {/* Clean Document Footer */}
-          <footer className="pt-6 pb-12 border-t border-slate-200 text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-3">
+          {/* Simple Compact Footer */}
+          <footer className="pt-4 pb-8 border-t border-slate-200 text-xs text-slate-400 flex flex-col sm:flex-row items-center justify-between gap-2">
             <div>
-              &copy; 2026 Rahman Printing — Sistem Informasi Point of Sale & SPK
+              &copy; 2026 Rahman Printing POS — Dokumentasi Resmi
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
               <a
                 href="http://localhost:8000"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-slate-900 transition-colors inline-flex items-center gap-1 font-medium"
+                className="hover:text-slate-800 transition-colors inline-flex items-center gap-1 font-medium"
               >
-                <span>Buka Aplikasi Web</span>
-                <ExternalLink className="w-3.5 h-3.5" />
+                <span>Aplikasi POS</span>
+                <ExternalLink className="w-3 h-3" />
               </a>
               <a
                 href="#faq-troubleshooting"
                 onClick={() => handleNavigate('faq-troubleshooting')}
-                className="hover:text-slate-900 transition-colors"
+                className="hover:text-slate-800 transition-colors"
               >
-                Troubleshooting
+                Bantuan
               </a>
             </div>
           </footer>
