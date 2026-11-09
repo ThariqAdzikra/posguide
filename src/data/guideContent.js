@@ -1,11 +1,12 @@
 export const guideSections = [
   {
     groupId: 'auth-account',
-    groupTitle: 'Autentikasi & Akun',
+    groupTitle: 'Akun & Akses',
     items: [
       {
         id: 'auth-login',
         endpoint: '/login',
+        shortTitle: 'Login & Peran',
         title: 'Login & Akses Peran Pengguna',
         summary: 'Pintu masuk utama sistem dengan pembagian hak akses terisolasi untuk Owner, Admin, dan Karyawan.',
         description: 'Sistem POS Rahman Printing menggunakan form login berbasis Card Deck. Setiap akun memiliki hak akses yang disesuaikan dengan tanggung jawab kerja: Karyawan (Kasir & Operator SPK), Administrator (Pengaturan data master dan staf), serta Owner (Dashboard finansial dan audit).',
@@ -20,6 +21,7 @@ export const guideSections = [
       {
         id: 'auth-forgot-password',
         endpoint: '/forgot-password',
+        shortTitle: 'Lupa Password',
         title: 'Lupa Password & Pemulihan Akun',
         summary: 'Prosedur pemulihan kata sandi staf dan perintah darurat terminal untuk akun Owner.',
         description: 'Jika staf kasir atau operator lupa kata sandi, klik tombol "Lupa Password?" pada bagian bawah form login. Untuk pemulihan darurat akun Administrator/Owner utama tanpa akses email, sistem menyediakan perintah CLI Artisan khusus yang dapat dijalankan langsung di server.',
@@ -34,6 +36,7 @@ export const guideSections = [
       {
         id: 'profile-pengaturan',
         endpoint: '/profile',
+        shortTitle: 'Profil Pengguna',
         title: 'Profil Pengguna & Keamanan Akun',
         summary: 'Pembaruan informasi profil pribadi, nomor WhatsApp, foto avatar, dan perubahan kata sandi.',
         description: 'Setiap pengguna yang login dapat membuka halaman Profil (/profile) melalui dropdown pojok kanan atas. Halaman ini digunakan untuk memperbarui nama lengkap, nomor WhatsApp untuk notifikasi toko, mengunggah foto avatar, serta mengganti kata sandi secara mandiri.',
@@ -49,11 +52,12 @@ export const guideSections = [
   },
   {
     groupId: 'dashboard-overview',
-    groupTitle: 'Dashboard & Analitik',
+    groupTitle: 'Dashboard',
     items: [
       {
         id: 'dashboard-kpi',
         endpoint: '/dashboard',
+        shortTitle: 'Dashboard KPI',
         title: 'Dashboard Utama & KPI Penjualan',
         summary: 'Pusat pantau operasional: omzet harian, transaksi selesai, dan status pengerjaan pesanan.',
         description: 'Dashboard (/dashboard) adalah beranda utama saat Administrator atau Owner masuk ke sistem. Menampilkan ringkasan kartu metrik kinerja toko secara real-time: total omzet penjualan hari ini, jumlah transaksi berhasil, jumlah pesanan dalam antrean produksi, dan grafik tren penjualan.',
@@ -69,11 +73,12 @@ export const guideSections = [
   },
   {
     groupId: 'kasir-pos',
-    groupTitle: 'Kasir (Point of Sale)',
+    groupTitle: 'Kasir POS',
     items: [
       {
         id: 'kasir-katalog',
         endpoint: '/pos',
+        shortTitle: 'Katalog Produk',
         title: 'Katalog Produk & Pencarian Kilat',
         summary: 'Navigasi master produk percetakan, filter kategori, dan kartu tarif dasar.',
         description: 'Layar kasir (/pos) dirancang untuk memproses transaksi dengan kecepatan tinggi. Menampilkan katalog kartu produk percetakan lengkap dengan foto, kode SKU, tarif dasar, dan status ketersediaan stok fisik. Kasir dapat memfilter berdasarkan kategori atau mengetik nama produk di bar pencarian.',
@@ -88,6 +93,7 @@ export const guideSections = [
       {
         id: 'kasir-custom-ukuran',
         endpoint: '/pos',
+        shortTitle: 'Kalkulasi Spanduk',
         title: 'Kalkulasi Spanduk & Custom Ukuran',
         summary: 'Modal matematis perhitungan otomatis panjang × lebar (m²) dan opsi finishing.',
         description: 'Produk meteran (Spanduk Flexi, X-Banner, Stiker Meteran) memerlukan kustomisasi dimensi. Mengklik kartu produk akan membuka modal ukuran otomatis. Kasir cukup memasukkan panjang dan lebar dalam satuan meter, lalu memilih jenis finishing (mata ayam keliling/sudut, selongsong, atau potong pas). Sistem menghitung luas total (m²) dan mengalikan tarif secara instan.',
@@ -102,6 +108,7 @@ export const guideSections = [
       {
         id: 'kasir-keranjang-bayar',
         endpoint: '/pos',
+        shortTitle: 'Keranjang & Bayar',
         title: 'Keranjang Kasir & Pembayaran (DP / Lunas)',
         summary: 'Panel transaksi kanan, penautan kontak pelanggan, shortcut F4, dan skema Uang Muka.',
         description: 'Panel sisi kanan merangkum item yang sedang diproses. Kasir dapat menghubungkan nota dengan data kontak pelanggan (Retail, Reseller, atau Korporat). Tekan tombol "Proses Pembayaran" atau tekan tombol F4 di keyboard. Pilih metode bayar: Tunai (dengan kalkulator kembalian pecahan cepat), QRIS, atau Transfer Bank. Untuk pesanan berdurasi pengerjaan panjang, kasir dapat memilih opsi Uang Muka (DP 50%).',
@@ -116,6 +123,7 @@ export const guideSections = [
       {
         id: 'kasir-struk-thermal',
         endpoint: '/pos',
+        shortTitle: 'Cetak Struk Thermal',
         title: 'Cetak Struk Thermal (58mm / 80mm)',
         summary: 'Dialog pratinjau struk, toggle ukuran kertas, Web Bluetooth ESC/POS, dan Universal Print.',
         description: 'Setelah pembayaran berhasil disimpan, dialog Cetak Struk Transaksi muncul secara otomatis. Kasir dapat memilih format kertas: 58 mm (Mini portabel 30 kolom) atau 80 mm (Standar desktop 48 kolom). Klik "Cetak via Bluetooth" untuk mengirim data ESC/POS nirkabel langsung ke printer kasir, atau gunakan tombol "Cetak Universal" untuk dialog browser.',
@@ -131,11 +139,12 @@ export const guideSections = [
   },
   {
     groupId: 'spk-produksi',
-    groupTitle: 'SPK & Produksi Pesanan',
+    groupTitle: 'SPK Produksi',
     items: [
       {
         id: 'orders-antrean',
         endpoint: '/orders',
+        shortTitle: 'Papan Antrean SPK',
         title: 'Papan Antrean Kerja (6 Tahapan SPK)',
         summary: 'Alur kerja sekuensial: Order Masuk → Menunggu Desain → Proses Desain → Proses Cetak → Siap Diambil → Selesai.',
         description: 'Halaman Pesanan (/orders) bertindak sebagai papan kendali pengerjaan bengkel cetak. Setiap transaksi kasir diterjemahkan menjadi Surat Perintah Kerja (SPK) dengan alur transisi berurutan yang ketat. Operator mesin dan desainer memantau pesanan aktif, tanggal deadline, dan status pembayaran pesanan.',
@@ -150,6 +159,7 @@ export const guideSections = [
       {
         id: 'orders-drawer-spk',
         endpoint: '/orders',
+        shortTitle: 'Drawer SPK & Link',
         title: 'Drawer Detail SPK & Kunci Link Desain',
         summary: 'Verifikasi spesifikasi cetak, penyimpanan tautan Canva/GDrive, dan proteksi cetak mesin.',
         description: 'Mengklik baris pesanan akan membuka drawer samping kanan berisi lembar SPK detail. Sebelum pesanan dapat dinaikkan ke tahap "Proses Cetak", desainer diwajibkan menempelkan URL file desain (Google Drive, Canva, atau Figma) lalu menekan tombol "Simpan". Jika link belum disimpan, tombol tahapan cetak terkunci otomatis untuk menghindari salah cetak.',
@@ -165,11 +175,12 @@ export const guideSections = [
   },
   {
     groupId: 'laporan-keuangan',
-    groupTitle: 'Laporan & Riwayat Transaksi',
+    groupTitle: 'Laporan & Invoice',
     items: [
       {
         id: 'reports-transaksi',
         endpoint: '/reports',
+        shortTitle: 'Riwayat & Pelunasan',
         title: 'Riwayat Transaksi & Pelunasan Piutang',
         summary: 'Daftar invoice transaksi kasir, buku piutang DP berjalan, dan rekapitulasi arus kas harian.',
         description: 'Halaman Invoice (/reports) menyajikan rekapitulasi lengkap seluruh transaksi yang pernah dilakukan kasir. Menampilkan pemisahan transparan antara total omzet kotor, kas riil yang telah diterima toko, dan sisa piutang Down Payment (DP) yang belum dilunasi pelanggan. Klik invoice untuk memeriksa rincian pembayaran atau membuka form pelunasan.',
@@ -185,11 +196,12 @@ export const guideSections = [
   },
   {
     groupId: 'stok-crm',
-    groupTitle: 'Inventaris Stok & CRM Pelanggan',
+    groupTitle: 'Stok & Pelanggan',
     items: [
       {
         id: 'products-stok',
         endpoint: '/products',
+        shortTitle: 'Manajemen Stok',
         title: 'Manajemen Stok Bahan & Mutasi Opname',
         summary: 'Pemantauan bahan baku percetakan, kartu indikator stok aman/menipis, dan penyesuaian mutasi fisik.',
         description: 'Halaman Stok (/products) mengelola persediaan fisik bahan baku (kertas Art Carton, banner Flexi, roll stiker kromo, dsb). Menyajikan kartu status: Stok Aman, Stok Menipis, dan Stok Habis. Administrator dapat melakukan audit opname stok atau mencatat bahan masuk/keluar melalui tombol "+/- Stok".',
@@ -204,6 +216,7 @@ export const guideSections = [
       {
         id: 'customers-crm',
         endpoint: '/customers',
+        shortTitle: 'CRM Pelanggan',
         title: 'Direktori CRM & Riwayat Transaksi Pelanggan',
         summary: 'Database pelanggan, Customer Lifetime Value (LTV), pelacakan sisa piutang, dan kontak WhatsApp.',
         description: 'Halaman Pelanggan (/customers) merekam riwayat seluruh mitra bisnis dan pelanggan retail. Menampilkan akumulasi total belanja sepanjang masa (Lifetime Value), sisa piutang belum tertagih, dan riwayat seluruh nota yang diterbitkan. Dilengkapi tombol pintas chat WhatsApp untuk mempermudah komunikasi atau penagihan nota DP.',
@@ -219,11 +232,12 @@ export const guideSections = [
   },
   {
     groupId: 'admin-konfigurasi',
-    groupTitle: 'Administrasi & Pengaturan Toko',
+    groupTitle: 'Pengaturan & Admin',
     items: [
       {
         id: 'employees-manajemen',
         endpoint: '/employees',
+        shortTitle: 'Manajemen Staf',
         title: 'Manajemen Karyawan & Hak Akses Staf',
         summary: 'Pengelolaan akun kasir, operator produksi, desainer, dan pemisahan hak izin operasional.',
         description: 'Halaman Karyawan (/employees) hanya dapat diakses oleh Administrator dan Owner. Digunakan untuk mendaftarkan staf baru, mengubah nama dan nomor telepon kerja, menyetel ulang kata sandi staf yang bermasalah, serta menentukan peran penugasan (Karyawan Kasir vs Administrator Toko).',
@@ -238,6 +252,7 @@ export const guideSections = [
       {
         id: 'admin-audit-center',
         endpoint: '/admin/audit-center',
+        shortTitle: 'Pusat Audit & Void',
         title: 'Pusat Audit Aktivitas & Kebijakan Void Nota',
         summary: 'Log audit aktivitas staf kasir, riwayat pembatalan transaksi, dan pengembalian stok otomatis.',
         description: 'Menu Audit Center (/admin/audit-center) adalah instrumen pengawasan eksekutif untuk mencegah kecurangan kasir. Merekam setiap aksi pembatalan nota (Void), alasan pembatalan wajib, staf yang memproses, serta pengembalian kuantitas stok bahan secara otomatis ke sistem inventaris.',
@@ -252,6 +267,7 @@ export const guideSections = [
       {
         id: 'settings-toko',
         endpoint: '/settings',
+        shortTitle: 'Pengaturan Toko',
         title: 'Pengaturan Identitas Toko & Format Struk',
         summary: 'Konfigurasi profil percetakan, nomor WhatsApp resmi, alamat cabang, dan footer struk belanja.',
         description: 'Halaman Pengaturan (/settings) mengatur identitas toko yang dicetak pada struk thermal dan kop SPK resmi. Meliputi nama percetakan ("Rahman Printing"), alamat fisik lengkap, nomor WhatsApp toko untuk QR code struk, serta catatan garansi komplain (misal: "Komplain maksimal 1×24 jam dengan membawa nota ini").',
